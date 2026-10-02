@@ -180,7 +180,7 @@
             <div>
                 <header class="max-w-4xl mx-auto text-center px-4 pt-10 pb-8">
                     <div class="mb-8 overflow-hidden rounded-3xl glass-panel neon-glow p-2 max-w-3xl mx-auto">
-                        <img src="https://cdn.discordapp.com/attachments/1550755223688056863/1555386801210925066/file_00000000cf648207a5b6bfedbdf1fb1f.png?backend=b2&ex=6ac06557&is=6abf13d7&hm=9144332351163365c8fc3174b57b82cb7d675442c26935c1c7f013ffe5f04070&" alt="Sunlight Hub Banner" class="w-full h-auto rounded-2xl object-cover">
+                        <img src="https://i.postimg.cc/QdVG57rm/file-00000000cf648207a5b6bfedbdf1fb1f.png" alt="Sunlight Hub Banner" class="w-full h-auto rounded-2xl object-cover">
                     </div>
 
                     <h1 class="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-neonPurple bg-clip-text text-transparent">
@@ -700,9 +700,6 @@
 
             showToast('กำลังดึงข้อมูลจาก Roblox...');
             try {
-                // ใช้ Public CORS Proxy เพื่อดึงข้อมูล Roblox API
-                const proxyUrl = `https://api.allorigins.win/get?url=`;
-                
                 // 1. ดึง Universe ID
                 const uniRes = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
                 const uniData = await uniRes.json();
