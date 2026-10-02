@@ -361,7 +361,7 @@
             { id: 5, name: 'Touch fling', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี', video: '' },
             { id: 6, name: 'Clone player', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้', video: '' },
             { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม', video: '' },
-            { id: 8, name: 'NPC ผู้สร้างคนเดิม (Clone NPC)', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', video: '' }
+            { id: 8, name: 'NPC', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', video: '' }
         ];
 
         function onYouTubeIframeAPIReady() {
@@ -486,11 +486,9 @@
             const u = document.getElementById('loginUser').value.trim();
             const p = document.getElementById('loginPass').value;
 
-            // ตรวจสอบแอดมินหลัก
             if (u === 'Sunlight hub 2626' && p === 'Sunlight shop 2626') {
                 currentUser = { username: u, role: 'admin' };
             } else {
-                // ตรวจสอบสมาชิกทั่วไปที่สมัครเก็บไว้ในเครื่อง
                 let users = JSON.parse(localStorage.getItem('sunlight_registered_users')) || [];
                 let found = users.find(x => x.username === u && x.password === p);
                 if (found) {
