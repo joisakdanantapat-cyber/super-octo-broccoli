@@ -106,10 +106,10 @@
             <p class="text-gray-300 text-sm md:text-base mb-6">กรุณาเข้าร่วม Discord เพื่อไปเอาคีย์เข้าใช้งานเว็บ</p>
 
             <div class="space-y-4">
-                <!-- ปุ่มกดเข้าดิสคอร์ด (คลิกแล้วบังคับเด้งเปิดแท็บใหม่ทันที + นับถอยหลัง) -->
-                <button onclick="openDiscordAndCount()" id="discordBtn" class="w-full py-3.5 px-4 rounded-xl font-medium bg-[#5865F2] hover:bg-[#4752C4] text-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg cursor-pointer">
+                <!-- ใช้ลิงก์แท้ target="_blank" มั่นใจได้ว่ากดแล้วเด้งเข้า Discord ทันที 100% -->
+                <a href="https://discord.gg/yUUz7jWa5" target="_blank" onclick="startDiscordCountdown()" id="discordBtn" class="w-full py-3.5 px-4 rounded-xl font-medium bg-[#5865F2] hover:bg-[#4752C4] text-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg block">
                     <i class="fa-brands fa-discord text-xl"></i> <span id="discordBtnText">เข้าร่วม Discord (เพื่อรับคีย์)</span>
-                </button>
+                </a>
 
                 <button id="enterWebBtn" onclick="enterWebsite()" disabled class="w-full py-3.5 px-4 rounded-xl font-medium bg-purple-900/40 text-gray-500 cursor-not-allowed border border-purple-900/50 transition-all duration-300 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> <span id="enterBtnText">ไปหน้ากรอกคีย์</span>
@@ -257,9 +257,6 @@
         let player = null;
         let musicPlaying = false;
         const correctKey = "Sunlight hub 2026";
-        
-        // 📌 ใส่ลิงก์ Discord ของคุณตรงนี้ได้เลย
-        const discordInviteLink = "https://discord.gg/yUUz7jWa5"; 
 
         const defaultScripts = [
             { id: 1, name: 'ล่องหน', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา' },
@@ -295,11 +292,7 @@
 
         function resetWelcomeState() { localStorage.clear(); location.reload(); }
 
-        // ฟังก์ชันกดเปิด Discord แบบบังคับเด้งแท็บใหม่ด้วย JavaScript และนับถอยหลัง
-        function openDiscordAndCount() {
-            // เปิดหน้าต่าง Discord ทันที
-            window.open(discordInviteLink, '_blank');
-
+        function startDiscordCountdown() {
             if (isCountingDown) return;
             isCountingDown = true;
 
