@@ -207,7 +207,7 @@
                     <!-- CATEGORIES FILTER TABS -->
                     <div id="categoryTabs" class="flex flex-wrap items-center justify-center gap-2 mt-6">
                         <button onclick="filterCategory('All')" class="cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-neonPurple text-white transition-all">ทั้งหมด</button>
-                        <button onclick="filterCategory('General')" class="cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 transition-all">ทั่วไป / Client</button>
+                        <button onclick="filterCategory('Universal')" class="cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 transition-all">Universal</button>
                         <button onclick="filterCategory('Blox Fruits')" class="cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 transition-all">Blox Fruits</button>
                         <button onclick="filterCategory('BedWars')" class="cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 transition-all">BedWars</button>
                     </div>
@@ -252,7 +252,7 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-900/40 pb-6">
                         <div>
                             <div class="flex items-center gap-2 mb-2">
-                                <span id="detailCategoryBadge" class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-neonPurple/20 border border-neonPurple text-neonPurple">General</span>
+                                <span id="detailCategoryBadge" class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-neonPurple/20 border border-neonPurple text-neonPurple">Universal</span>
                                 <span id="detailGameMap" class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">Universal</span>
                             </div>
                             <h1 id="detailName" class="text-2xl md:text-4xl font-bold text-white mb-2">ชื่อสคริปต์</h1>
@@ -320,7 +320,7 @@
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">หมวดหมู่ (Category)</label>
                     <select id="upCategory" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm focus:outline-none focus:border-neonPurple">
-                        <option value="General" class="bg-darkBg">ทั่วไป / Client</option>
+                        <option value="Universal" class="bg-darkBg">Universal</option>
                         <option value="Blox Fruits" class="bg-darkBg">Blox Fruits</option>
                         <option value="BedWars" class="bg-darkBg">BedWars</option>
                     </select>
@@ -368,7 +368,7 @@
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">หมวดหมู่ (Category)</label>
                     <select id="editCategory" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm focus:outline-none focus:border-yellow-500">
-                        <option value="General" class="bg-darkBg">ทั่วไป / Client</option>
+                        <option value="Universal" class="bg-darkBg">Universal</option>
                         <option value="Blox Fruits" class="bg-darkBg">Blox Fruits</option>
                         <option value="BedWars" class="bg-darkBg">BedWars</option>
                     </select>
@@ -462,15 +462,15 @@
         const ADMIN_PASSWORD = "Sunlighthub2027Admin";
 
         const defaultScripts = [
-            { id: 9, name: 'บิน', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้ตัวเราบินได้โดยใช้อนาล็อกในการบิน', image: '' },
-            { id: 1, name: 'ล่องหน', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา', image: '' },
-            { id: 2, name: 'Wallhop', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้สามารถไต่กำแพงได้', image: '' },
-            { id: 3, name: 'ย้อนเวลา', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=38bd2fe1981a089b13d43ed94594ada1&_s=4ac8b5ba76ae8be0572a34a75155773a5292690ced1c1bf7964b342eba6ae91c"))()', desc: 'สามารถกดย้อนเวลาได้เมื่อรันสคริปมา ตัวละครของเราจะทำการเดินย้อนกลับมายังจุดที่เราต้องการให้หยุด', image: '' },
-            { id: 4, name: 'หยุดเวลา', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=ac254af6c932d54a23777b501a5b37b5&_s=d59b235f487e6dd2861d20c32d7825090e1bd9c685c802e92e87a7a262d4757c"))()', desc: 'สามารถหยุดเวลาได้ ทุกคนจะหยุดเวลา', image: '' },
-            { id: 5, name: 'Touch fling', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี', image: '' },
-            { id: 6, name: 'Clone player', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้', image: '' },
-            { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม', image: '' },
-            { id: 8, name: 'NPC', creator: 'areb_81h2', category: 'General', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', image: '' }
+            { id: 9, name: 'บิน', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้ตัวเราบินได้โดยใช้อนาล็อกในการบิน', image: '' },
+            { id: 1, name: 'ล่องหน', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา', image: '' },
+            { id: 2, name: 'Wallhop', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้สามารถไต่กำแพงได้', image: '' },
+            { id: 3, name: 'ย้อนเวลา', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=38bd2fe1981a089b13d43ed94594ada1&_s=4ac8b5ba76ae8be0572a34a75155773a5292690ced1c1bf7964b342eba6ae91c"))()', desc: 'สามารถกดย้อนเวลาได้เมื่อรันสคริปมา ตัวละครของเราจะทำการเดินย้อนกลับมายังจุดที่เราต้องการให้หยุด', image: '' },
+            { id: 4, name: 'หยุดเวลา', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=ac254af6c932d54a23777b501a5b37b5&_s=d59b235f487e6dd2861d20c32d7825090e1bd9c685c802e92e87a7a262d4757c"))()', desc: 'สามารถหยุดเวลาได้ ทุกคนจะหยุดเวลา', image: '' },
+            { id: 5, name: 'Touch fling', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี', image: '' },
+            { id: 6, name: 'Clone player', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้', image: '' },
+            { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม', image: '' },
+            { id: 8, name: 'NPC', creator: 'areb_81h2', category: 'Universal', gameMap: 'Universal', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', image: '' }
         ];
 
         const NPOINT_API_URL = "https://api.npoint.io/8572707039bb9f1e4948";
@@ -702,7 +702,6 @@
             document.getElementById('uploadModal').style.display = 'none';
         }
 
-        // --- ฟังก์ชันดึงข้อมูลแมพอัตโนมัติด้วย Place ID จาก Roblox API ---
         async function fetchRobloxGameInfo() {
             const placeId = document.getElementById('upPlaceIdInput').value.trim();
             if (!placeId) {
@@ -753,7 +752,7 @@
             if (!script) return;
 
             document.getElementById('editId').value = script.id;
-            document.getElementById('editCategory').value = script.category || 'General';
+            document.getElementById('editCategory').value = script.category || 'Universal';
             document.getElementById('editGameMap').value = script.gameMap || 'Universal';
             document.getElementById('editName').value = script.name;
             document.getElementById('editCreator').value = script.creator;
@@ -767,7 +766,7 @@
         function openEditModalFromDetail() {
             if (!currentActiveScript) return;
             document.getElementById('editId').value = currentActiveScript.id;
-            document.getElementById('editCategory').value = currentActiveScript.category || 'General';
+            document.getElementById('editCategory').value = currentActiveScript.category || 'Universal';
             document.getElementById('editGameMap').value = currentActiveScript.gameMap || 'Universal';
             document.getElementById('editName').value = currentActiveScript.name;
             document.getElementById('editCreator').value = currentActiveScript.creator;
@@ -876,7 +875,7 @@
             activeCategory = category;
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => {
-                if (btn.innerText.includes(category) || (category === 'All' && btn.innerText === 'ทั้งหมด') || (category === 'General' && btn.innerText.includes('ทั่วไป'))) {
+                if (btn.innerText.includes(category) || (category === 'All' && btn.innerText === 'ทั้งหมด')) {
                     btn.className = "cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-neonPurple text-white transition-all";
                 } else {
                     btn.className = "cat-btn px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 transition-all";
@@ -921,7 +920,7 @@
                 }
 
                 let imageHtml = s.image ? `<div class="mb-4 w-full h-40 overflow-hidden rounded-2xl bg-black/40"><img src="${s.image}" alt="${s.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></div>` : '';
-                let catBadge = `<span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-medium bg-neonPurple/20 border border-neonPurple/50 text-neonPurple mb-2 mr-1.5">${s.category || 'General'}</span>`;
+                let catBadge = `<span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-medium bg-neonPurple/20 border border-neonPurple/50 text-neonPurple mb-2 mr-1.5">${s.category || 'Universal'}</span>`;
                 let mapBadge = `<span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 mb-2"><i class="fa-solid fa-gamepad mr-1"></i> ${s.gameMap || 'Universal'}</span>`;
 
                 card.innerHTML = `
@@ -953,7 +952,7 @@
             document.getElementById('detailName').innerText = script.name;
             document.getElementById('detailCreator').innerText = script.creator;
             document.getElementById('detailDesc').innerText = script.desc;
-            document.getElementById('detailCategoryBadge').innerText = script.category || 'General';
+            document.getElementById('detailCategoryBadge').innerText = script.category || 'Universal';
             document.getElementById('detailGameMap').innerHTML = `<i class="fa-solid fa-gamepad mr-1"></i> ${script.gameMap || 'Universal'}`;
 
             const editBtnEl = document.getElementById('detailEditBtn');
