@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunlight Hub</title>
+    <!-- Google Fonts: Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        kanit: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#0a0a0a',
+                        cardBg: '#1a0b2e',
+                        neonPurple: '#a855f7',
+                        neonPurpleHover: '#9333ea',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        .glass-panel {
+            background: rgba(26, 11, 46, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+        }
+        .neon-glow {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+        }
+        .neon-glow-sm {
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a855f7;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-darkBg min-h-screen flex flex-col justify-between selection:bg-neonPurple selection:text-white">
+
+    <!-- YouTube Hidden Player for Looping Music -->
+    <div id="youtubePlayerContainer" class="hidden">
+        <iframe id="ytAudioPlayer" width="200" height="200" src="https://www.youtube.com/embed/jthza-s_NEg?enablejsapi=1&loop=1&playlist=jthza-s_NEg" frameborder="0" allow="autoplay"></iframe>
+    </div>
+
+    <!-- ================= MUSIC PREFERENCE GUI MODAL ================= -->
+    <div id="musicPromptModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-md w-full text-center neon-glow relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-purple-600 rounded-full filter blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-indigo-600 rounded-full filter blur-3xl opacity-30"></div>
+
+            <div class="relative w-20 h-20 mx-auto mb-6 bg-gradient-to-tr from-purple-900 to-neonPurple rounded-full flex items-center justify-center neon-glow">
+                <i class="fa-solid fa-music text-3xl text-white animate-pulse"></i>
+            </div>
+
+            <h2 class="text-2xl font-bold mb-2">เปิดเพลงประกอบเว็บไหม?</h2>
+            <p class="text-gray-300 text-sm mb-8">คุณต้องการเปิดเพลงคลอเบาๆ ระหว่างใช้งาน Sunlight Hub หรือไม่</p>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="handleMusicChoice('yes')" class="py-3.5 px-4 rounded-xl font-medium bg-neonPurple hover:bg-neonPurpleHover text-white transition-all duration-300 neon-glow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-volume-high"></i> ต้องการ
+                </button>
+                <button onclick="handleMusicChoice('no')" class="py-3.5 px-4 rounded-xl font-medium bg-purple-950/80 hover:bg-purple-900 text-purple-300 border border-purple-800 transition-all duration-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-volume-xmark"></i> ไม่ต้องการ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= WELCOME / SPLASH SCREEN ================= -->
+    <div id="welcomeScreen" class="fixed inset-0 z-40 bg-[#0a0a0a] flex items-center justify-center p-4 transition-opacity duration-700">
+        <button onclick="resetWelcomeState()" class="absolute top-4 left-4 text-xs bg-purple-950/80 border border-purple-800 text-purple-300 px-3 py-1.5 rounded-lg hover:bg-purple-900 transition-all">
+            <i class="fa-solid fa-rotate-right mr-1"></i> รีเซ็ตสถานะต้อนรับ
+        </button>
+
+        <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-md w-full text-center neon-glow relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-purple-600 rounded-full filter blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-indigo-600 rounded-full filter blur-3xl opacity-30"></div>
+
+            <div class="relative w-24 h-24 mx-auto mb-6 bg-gradient-to-tr from-purple-900 to-neonPurple rounded-full flex items-center justify-center neon-glow">
+                <i class="fa-solid fa-sun text-4xl text-white animate-spin" style="animation-duration: 20s;"></i>
+            </div>
+
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">ยินดีต้อนรับสู่ Sunlight Hub</h1>
+            <p class="text-gray-300 text-sm md:text-base mb-6">กรุณาเข้าร่วม Discord เพื่อไปเอาคีย์เข้าใช้งานเว็บ</p>
+
+            <div class="space-y-4">
+                <!-- ปุ่มกดเข้าดิสคอร์ด (คลิกแล้วบังคับเด้งเปิดแท็บใหม่ทันที + นับถอยหลัง) -->
+                <button onclick="openDiscordAndCount()" id="discordBtn" class="w-full py-3.5 px-4 rounded-xl font-medium bg-[#5865F2] hover:bg-[#4752C4] text-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg cursor-pointer">
+                    <i class="fa-brands fa-discord text-xl"></i> <span id="discordBtnText">เข้าร่วม Discord (เพื่อรับคีย์)</span>
+                </button>
+
+                <button id="enterWebBtn" onclick="enterWebsite()" disabled class="w-full py-3.5 px-4 rounded-xl font-medium bg-purple-900/40 text-gray-500 cursor-not-allowed border border-purple-900/50 transition-all duration-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span id="enterBtnText">ไปหน้ากรอกคีย์</span>
+                </button>
+            </div>
+
+            <div class="mt-6 space-y-1">
+                <p class="text-xs text-gray-400">นำคีย์ที่ได้จากใน Discord มากรอกในขั้นตอนถัดไป</p>
+                <p id="statusMsg" class="text-xs text-neonPurple font-medium h-4"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= KEY SYSTEM MODAL ================= -->
+    <div id="keySystemModal" class="fixed inset-0 z-40 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-md w-full text-center neon-glow relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-purple-600 rounded-full filter blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-indigo-600 rounded-full filter blur-3xl opacity-30"></div>
+
+            <div class="relative w-20 h-20 mx-auto mb-6 bg-gradient-to-tr from-purple-900 to-neonPurple rounded-full flex items-center justify-center neon-glow">
+                <i class="fa-solid fa-key text-3xl text-white"></i>
+            </div>
+
+            <h2 class="text-2xl font-bold mb-2">กรอกคีย์เข้าใช้งาน</h2>
+            <p class="text-gray-300 text-sm mb-6">นำคีย์ที่คุณได้รับจากห้องใน Discord มากรอกที่นี่</p>
+
+            <form onsubmit="verifyKey(event)" class="space-y-4">
+                <div>
+                    <input type="text" id="accessKeyInput" required placeholder="วางคีย์ที่นี่..." class="w-full px-4 py-3.5 rounded-xl glass-panel text-white text-center text-sm focus:outline-none focus:border-neonPurple placeholder-gray-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 px-4 rounded-xl font-medium bg-neonPurple hover:bg-neonPurpleHover text-white transition-all duration-300 neon-glow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-shield-check"></i> ตรวจสอบคีย์
+                </button>
+            </form>
+
+            <div id="keyErrorMsg" class="mt-4 p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs text-center hidden flex items-center justify-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation"></i> <span>คีย์ไม่ถูกต้อง! กรุณาตรวจสอบคีย์ใน Discord อีกครั้ง</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MAIN WEBSITE CONTAINER ================= -->
+    <div id="mainApp" class="hidden flex-col min-h-screen justify-between">
+        <nav class="glass-panel border-b border-purple-900/40 sticky top-0 z-30 px-4 md:px-8 py-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-neonPurple/20 border border-neonPurple flex items-center justify-center text-neonPurple neon-glow-sm">
+                        <i class="fa-solid fa-sun text-xl"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-wide text-white">Sunlight Hub</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleBackgroundMusic()" id="musicToggleBtn" class="bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-purple-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 flex items-center gap-1.5">
+                        <i id="musicIcon" class="fa-solid fa-volume-high text-neonPurple"></i> <span id="musicText">ปิดเพลง</span>
+                    </button>
+
+                    <div id="authContainer">
+                        <button onclick="openAuthModal()" class="bg-neonPurple hover:bg-neonPurpleHover text-white px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 neon-glow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-user-circle"></i> เข้าสู่ระบบ / สมัครสมาชิก
+                        </button>
+                    </div>
+
+                    <button id="adminBtn" onclick="toggleAdminPanel()" class="hidden bg-purple-900/60 hover:bg-purple-800 text-neonPurple border border-neonPurple/50 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> จัดการสคริปต์
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <header class="max-w-4xl mx-auto text-center px-4 pt-10 pb-8">
+            <!-- จุดใส่รูปแบนเนอร์ (เปลี่ยนลิงก์ใน src เป็นลิงก์รูปของคุณได้เลย) -->
+            <div class="mb-8 overflow-hidden rounded-3xl glass-panel neon-glow p-2 max-w-3xl mx-auto">
+                <img src="https://i.imgur.com/your-image-link.png" alt="Sunlight Hub Banner" class="w-full h-auto rounded-2xl object-cover">
+            </div>
+
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-neonPurple bg-clip-text text-transparent">
+                Sunlight Hub
+            </h1>
+            <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+                กำลังหาติสอยู่รึป่าว? ติสพวกเรา ✨ ศูนย์รวมสคริปต์คุณภาพสูง ใช้งานง่าย ปลอดภัย และอัปเดตตลอดเวลา
+            </p>
+
+            <div class="relative max-w-xl mx-auto">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchInput" oninput="filterScripts()" placeholder="ค้นหาสคริปต์จากชื่อ หรือ ผู้สร้าง..." 
+                    class="w-full pl-11 pr-4 py-3.5 rounded-2xl glass-panel text-white placeholder-gray-400 focus:outline-none focus:border-neonPurple transition-all duration-300 text-sm md:text-base">
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 flex-grow w-full">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg md:text-xl font-semibold flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-code text-neonPurple"></i> รายการสคริปต์ทั้งหมด
+                </h2>
+                <span id="scriptCountBadge" class="text-xs bg-purple-900/60 border border-neonPurple/40 text-neonPurple px-3 py-1 rounded-full font-medium">0 รายการ</span>
+            </div>
+
+            <div id="scriptsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </main>
+
+        <footer class="text-center py-6 border-t border-purple-900/30 text-gray-400 text-xs md:text-sm">
+            <p>&copy; 2026 Sunlight Hub. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- ADMIN & AUTH MODALS -->
+    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-panel p-6 md:p-8 rounded-3xl max-w-lg w-full relative neon-glow">
+            <button onclick="toggleAdminPanel()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-bold mb-6 text-neonPurple"><i class="fa-solid fa-circle-plus"></i> เพิ่มสคริปต์ใหม่</h3>
+            <form id="scriptForm" onsubmit="saveScript(event)" class="space-y-4">
+                <input type="text" id="scriptName" required placeholder="ชื่อสคริปต์" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <input type="text" id="scriptCreator" required placeholder="ชื่อผู้สร้าง" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <input type="text" id="scriptMap" required value="Universal (ใช้ได้ทุกแมพ)" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <input type="text" id="scriptUrl" required placeholder="ลิงก์ Loadstring" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <textarea id="scriptDesc" rows="3" required placeholder="คำอธิบาย..." class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm resize-none"></textarea>
+                <button type="submit" class="w-full py-3 rounded-xl font-medium bg-neonPurple text-white">บันทึกสคริปต์</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="authModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-panel p-6 md:p-8 rounded-3xl max-w-md w-full relative neon-glow">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="text" id="loginUser" required placeholder="ชื่อผู้ใช้" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <input type="password" id="loginPass" required placeholder="รหัสผ่าน" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
+                <button type="submit" class="w-full py-3 rounded-xl font-medium bg-neonPurple text-white">เข้าสู่ระบบ</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 z-50 glass-panel px-5 py-3 rounded-xl text-sm text-white neon-glow-sm transition-all duration-300 transform translate-y-20 opacity-0 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-neonPurple"></i> <span id="toastText">สำเร็จ!</span>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('sunlight_current_user')) || null;
+        let isCountingDown = false;
+        let allScripts = [];
+        let player = null;
+        let musicPlaying = false;
+        const correctKey = "Sunlight hub 2026";
+        
+        // 📌 ใส่ลิงก์ Discord ของคุณตรงนี้ได้เลย
+        const discordInviteLink = "https://discord.gg/yUUz7jWa5"; 
+
+        const defaultScripts = [
+            { id: 1, name: 'ล่องหน', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา' },
+            { id: 2, name: 'Wallhop', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้สามารถไต่กำแพงได้' },
+            { id: 3, name: 'ย้อนเวลา', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=38bd2fe1981a089b13d43ed94594ada1&_s=4ac8b5ba76ae8be0572a34a75155773a5292690ced1c1bf7964b342eba6ae91c"))()', desc: 'สามารถกดย้อนเวลาได้เมื่อรันสคริปมา ตัวละครของเราจะทำการเดินย้อนกลับมายังจุดที่เราต้องการให้หยุด' },
+            { id: 4, name: 'หยุดเวลา', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=ac254af6c932d54a23777b501a5b37b5&_s=d59b235f487e6dd2861d20c32d7825090e1bd9c685c802e92e87a7a262d4757c"))()', desc: 'สามารถหยุดเวลาได้ ทุกคนจะหยุดเวลา' },
+            { id: 5, name: 'Touch fling', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี' },
+            { id: 6, name: 'Clone player', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้' },
+            { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม' },
+            { id: 8, name: 'NPC ผู้สร้างคนเดิม (Clone NPC)', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง' }
+        ];
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytAudioPlayer', {
+                events: { 'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED && musicPlaying) player.playVideo(); } }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const entered = localStorage.getItem('sunlight_entered');
+            const keyVerified = localStorage.getItem('sunlight_key_verified');
+            if (entered === 'true' && keyVerified === 'true') {
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('mainApp').classList.remove('hidden');
+                document.getElementById('mainApp').classList.add('flex');
+            } else if (entered === 'true') {
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('keySystemModal').style.display = 'flex';
+            }
+            updateAuthUI();
+            fetchScripts();
+        });
+
+        function resetWelcomeState() { localStorage.clear(); location.reload(); }
+
+        // ฟังก์ชันกดเปิด Discord แบบบังคับเด้งแท็บใหม่ด้วย JavaScript และนับถอยหลัง
+        function openDiscordAndCount() {
+            // เปิดหน้าต่าง Discord ทันที
+            window.open(discordInviteLink, '_blank');
+
+            if (isCountingDown) return;
+            isCountingDown = true;
+
+            const discordBtn = document.getElementById('discordBtn');
+            discordBtn.classList.add('opacity-50', 'pointer-events-none');
+            document.getElementById('discordBtnText').innerText = "กำลังไปที่ Discord...";
+            document.getElementById('statusMsg').innerText = "ไปเอาคีย์ใน Discord แล้วกลับมานะ...";
+
+            let timeLeft = 10;
+            const enterBtn = document.getElementById('enterWebBtn');
+            const enterBtnText = document.getElementById('enterBtnText');
+
+            const countdownInterval = setInterval(() => {
+                enterBtnText.innerHTML = `กรุณารอ <span class="text-neonPurple font-bold animate-pulse">${timeLeft}</span> วินาที`;
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(countdownInterval);
+                    isCountingDown = false;
+                    discordBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    document.getElementById('discordBtnText').innerText = "เข้าร่วม Discord อีกครั้ง";
+
+                    enterBtn.removeAttribute('disabled');
+                    enterBtn.classList.remove('bg-purple-900/40', 'text-gray-500', 'cursor-not-allowed', 'border-purple-900/50');
+                    enterBtn.classList.add('bg-neonPurple', 'hover:bg-neonPurpleHover', 'text-white', 'neon-glow-sm');
+                    enterBtnText.innerText = "ไปหน้ากรอกคีย์";
+                    document.getElementById('statusMsg').innerText = "พร้อมไปกรอกคีย์แล้ว!";
+                }
+            }, 1000);
+        }
+
+        function enterWebsite() {
+            const enterBtn = document.getElementById('enterWebBtn');
+            if (enterBtn.hasAttribute('disabled')) return;
+            localStorage.setItem('sunlight_entered', 'true');
+            const welcome = document.getElementById('welcomeScreen');
+            welcome.style.opacity = '0';
+            setTimeout(() => {
+                welcome.style.display = 'none';
+                document.getElementById('keySystemModal').style.display = 'flex';
+            }, 700);
+        }
+
+        function verifyKey(e) {
+            e.preventDefault();
+            if (document.getElementById('accessKeyInput').value.trim() === correctKey) {
+                localStorage.setItem('sunlight_key_verified', 'true');
+                document.getElementById('keySystemModal').style.display = 'none';
+                const main = document.getElementById('mainApp');
+                main.classList.remove('hidden');
+                main.classList.add('flex');
+                document.getElementById('musicPromptModal').style.display = 'flex';
+                showToast('ยืนยันคีย์สำเร็จ!');
+            } else {
+                document.getElementById('keyErrorMsg').classList.remove('hidden');
+            }
+        }
+
+        function handleMusicChoice(choice) {
+            document.getElementById('musicPromptModal').style.display = 'none';
+            if (choice === 'yes') { musicPlaying = true; player?.playVideo(); }
+            showToast(choice === 'yes' ? 'เปิดเพลงประกอบเรียบร้อย' : 'ไม่ต้องการเปิดเพลง');
+        }
+
+        function toggleBackgroundMusic() {
+            musicPlaying = !musicPlaying;
+            musicPlaying ? player?.playVideo() : player?.pauseVideo();
+            document.getElementById('musicIcon').className = musicPlaying ? "fa-solid fa-volume-high text-neonPurple" : "fa-solid fa-volume-xmark text-gray-400";
+            document.getElementById('musicText').innerText = musicPlaying ? "ปิดเพลง" : "เปิดเพลง";
+        }
+
+        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            if (document.getElementById('loginUser').value.trim() === 'Sunlight hub 2626' && document.getElementById('loginPass').value === 'Sunlight shop 2626') {
+                currentUser = { username: 'Sunlight hub 2626', role: 'admin' };
+                localStorage.setItem('sunlight_current_user', JSON.stringify(currentUser));
+                closeAuthModal(); updateAuthUI(); showToast('เข้าสู่ระบบแอดมินสำเร็จ!');
+            }
+        }
+
+        function updateAuthUI() {
+            const authContainer = document.getElementById('authContainer');
+            const adminBtn = document.getElementById('adminBtn');
+            if (currentUser) {
+                authContainer.innerHTML = `<span class="text-xs md:text-sm text-gray-300"><i class="fa-solid fa-user text-neonPurple mr-1"></i> ${currentUser.username}</span>`;
+                if (currentUser.role === 'admin') adminBtn.classList.remove('hidden');
+            }
+        }
+
+        function toggleAdminPanel() {
+            const modal = document.getElementById('adminModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function fetchScripts() {
+            allScripts = defaultScripts;
+            let local = localStorage.getItem('sunlight_cloud_scripts');
+            if (local) { try { allScripts = JSON.parse(local); } catch(e) {} }
+            renderScriptCards(allScripts);
+        }
+
+        function saveScript(e) {
+            e.preventDefault();
+            const newScript = {
+                id: Date.now(),
+                name: document.getElementById('scriptName').value,
+                creator: document.getElementById('scriptCreator').value,
+                gameMap: document.getElementById('scriptMap').value,
+                url: document.getElementById('scriptUrl').value,
+                desc: document.getElementById('scriptDesc').value
+            };
+            allScripts.unshift(newScript);
+            localStorage.setItem('sunlight_cloud_scripts', JSON.stringify(allScripts));
+            document.getElementById('scriptForm').reset();
+            toggleAdminPanel();
+            renderScriptCards(allScripts);
+            showToast('บันทึกสคริปต์สำเร็จ!');
+        }
+
+        function deleteScript(id) {
+            if (confirm('ต้องการลบสคริปต์นี้ใช่หรือไม่?')) {
+                allScripts = allScripts.filter(s => s.id !== id);
+                localStorage.setItem('sunlight_cloud_scripts', JSON.stringify(allScripts));
+                renderScriptCards(allScripts);
+                showToast('ลบสคริปต์เรียบร้อยแล้ว');
+            }
+        }
+
+        function copyScriptUrl(url) {
+            navigator.clipboard.writeText(url).then(() => showToast('คัดลอก Loadstring สำเร็จ!'));
+        }
+
+        function filterScripts() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderScriptCards(allScripts.filter(s => s.name.toLowerCase().includes(q) || s.creator.toLowerCase().includes(q)));
+        }
+
+        function renderScriptCards(scripts) {
+            const grid = document.getElementById('scriptsGrid');
+            document.getElementById('scriptCountBadge').innerText = `${scripts.length} รายการ`;
+            grid.innerHTML = '';
+            scripts.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-6 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:border-neonPurple hover:neon-glow-sm relative group";
+                let adminHtml = currentUser?.role === 'admin' ? `<button onclick="deleteScript(${s.id})" class="bg-red-950/60 hover:bg-red-900 border border-red-500/40 text-red-300 px-3 py-2 rounded-xl text-xs"><i class="fa-solid fa-trash-can"></i> ลบ</button>` : '';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between gap-4 mb-2">
+                            <h3 class="font-bold text-lg text-white group-hover:text-neonPurple">${s.name}</h3>
+                            <span class="text-xs bg-purple-950/80 border border-purple-800 text-purple-300 px-2.5 py-1 rounded-full">โดย ${s.creator}</span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-6 line-clamp-3">${s.desc}</p>
+                    </div>
+                    <div class="flex items-center gap-2 pt-4 border-t border-purple-900/30">
+                        <button onclick="copyScriptUrl('${s.url}')" class="flex-1 bg-neonPurple hover:bg-neonPurpleHover text-white py-2.5 px-3 rounded-xl text-xs font-medium"><i class="fa-solid fa-copy"></i> คัดลอกสคริปต์</button>
+                        ${adminHtml}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').innerText = text;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+    </script>
+</body>
+</html>
