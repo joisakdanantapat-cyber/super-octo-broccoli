@@ -171,10 +171,6 @@
                             <i class="fa-solid fa-user-circle"></i> เข้าสู่ระบบ / สมัครสมาชิก
                         </button>
                     </div>
-
-                    <button id="adminBtn" onclick="toggleAdminPanel()" class="hidden bg-purple-900/60 hover:bg-purple-800 text-neonPurple border border-neonPurple/50 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2">
-                        <i class="fa-solid fa-shield-halved"></i> จัดการสคริปต์
-                    </button>
                 </div>
             </div>
         </nav>
@@ -184,7 +180,7 @@
             <div>
                 <header class="max-w-4xl mx-auto text-center px-4 pt-10 pb-8">
                     <div class="mb-8 overflow-hidden rounded-3xl glass-panel neon-glow p-2 max-w-3xl mx-auto">
-                        <img src="https://cdn.discordapp.com/attachments/1550755223688056863/1555386801210925066/file_00000000cf648207a5b6bfedbdf1fb1f.png?backend=b2&ex=6ac05657&is=6abf04d7&hm=9144332351163365c8fc3174b57b82cb7d675442c26935c1c7f013ffe5f04070&" alt="Sunlight Hub Banner" class="w-full h-auto rounded-2xl object-cover">
+                        <img src="https://cdn.discordapp.com/attachments/1550755223688056863/1555386801210925066/file_00000000cf648207a5b6bfedbdf1fb1f.png?backend=b2&ex=6ac06557&is=6abf13d7&hm=9144332351163365c8fc3174b57b82cb7d675442c26935c1c7f013ffe5f04070&" alt="Sunlight Hub Banner" class="w-full h-auto rounded-2xl object-cover">
                     </div>
 
                     <h1 class="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-neonPurple bg-clip-text text-transparent">
@@ -194,12 +190,18 @@
                         ศูนย์รวมสคริปต์คุณภาพสูง ใช้งานง่าย ปลอดภัย และอัปเดตตลอดเวลา
                     </p>
 
-                    <div class="relative max-w-xl mx-auto">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                        <input type="text" id="searchInput" oninput="filterScripts()" placeholder="ค้นหาสคริปต์จากชื่อ หรือ ผู้สร้าง..." 
-                            class="w-full pl-11 pr-4 py-3.5 rounded-2xl glass-panel text-white placeholder-gray-400 focus:outline-none focus:border-neonPurple transition-all duration-300 text-sm md:text-base">
+                    <!-- SEARCH & UPLOAD SCRIPT BAR -->
+                    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-grow">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                            <input type="text" id="searchInput" oninput="filterScripts()" placeholder="ค้นหาสคริปต์จากชื่อ หรือ ผู้สร้าง..." 
+                                class="w-full pl-11 pr-4 py-3.5 rounded-2xl glass-panel text-white placeholder-gray-400 focus:outline-none focus:border-neonPurple transition-all duration-300 text-sm md:text-base">
+                        </div>
+                        <button onclick="openUploadModal()" class="bg-neonPurple hover:bg-neonPurpleHover text-white px-6 py-3.5 rounded-2xl font-medium text-sm md:text-base transition-all duration-300 neon-glow-sm flex items-center justify-center gap-2 whitespace-nowrap">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> อัปโหลดสคริปต์
+                        </button>
                     </div>
                 </header>
 
@@ -234,14 +236,9 @@
                 </button>
 
                 <div class="glass-panel p-6 md:p-8 rounded-3xl neon-glow mb-8 space-y-6">
-                    <!-- Script Image Display -->
-                    <div class="w-full h-56 md:h-80 rounded-2xl overflow-hidden border border-purple-900/30 bg-black/40 flex items-center justify-center">
-                        <img id="detailImg" src="" alt="Script Image" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/attachments/1550755223688056863/1555397500431769691/images.png?backend=b2&ex=6ac0604d&is=6abf0ecd&hm=96a0b6efbe0868e63fecf43b5d606db7c104a2a2ecf0a0850fbb05ce789f50d2&';">
-                    </div>
-
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-900/40 pb-6">
                         <div>
-                            <span id="detailMap" class="text-xs bg-purple-950/80 border border-purple-800 text-purple-300 px-3 py-1 rounded-full mb-3 inline-block">Universal</span>
+                            <span id="detailDate" class="text-xs bg-purple-950/80 border border-purple-800 text-purple-300 px-3 py-1 rounded-full mb-3 inline-block">วันที่สร้าง: -</span>
                             <h1 id="detailName" class="text-2xl md:text-4xl font-bold text-white mb-2">ชื่อสคริปต์</h1>
                             <p class="text-gray-400 text-sm flex items-center gap-1.5">
                                 <i class="fa-solid fa-user-pen text-neonPurple"></i> ผู้สร้าง: <span id="detailCreator" class="text-white font-medium">areb_81h2</span>
@@ -254,20 +251,11 @@
 
                     <div>
                         <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-info text-neonPurple"></i> รายละเอียดสคริปต์
+                            <i class="fa-solid fa-circle-info text-neonPurple"></i> คำอธิบายสคริปต์
                         </h3>
                         <p id="detailDesc" class="text-gray-300 text-sm md:text-base leading-relaxed bg-black/40 p-4 rounded-2xl border border-purple-900/30">
                             คำอธิบายสคริปต์...
                         </p>
-                    </div>
-
-                    <div id="videoContainer" class="hidden">
-                        <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-video text-neonPurple"></i> วิดีโอตัวอย่างการใช้งาน
-                        </h3>
-                        <div id="videoEmbed" class="w-full aspect-video rounded-2xl overflow-hidden border border-purple-900/30 bg-black/60 flex items-center justify-center">
-                            <!-- YouTube Embed or Video -->
-                        </div>
                     </div>
                 </div>
 
@@ -292,20 +280,36 @@
         </div>
     </div>
 
-    <!-- ADMIN & AUTH MODALS -->
-    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <!-- ================= UPLOAD SCRIPT MODAL ================= -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="glass-panel p-6 md:p-8 rounded-3xl max-w-lg w-full relative neon-glow">
-            <button onclick="toggleAdminPanel()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-bold mb-6 text-neonPurple"><i class="fa-solid fa-circle-plus"></i> เพิ่มสคริปต์ใหม่</h3>
-            <form id="scriptForm" onsubmit="saveScript(event)" class="space-y-4">
-                <input type="text" id="scriptName" required placeholder="ชื่อสคริปต์" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <input type="text" id="scriptCreator" required placeholder="ชื่อผู้สร้าง" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <input type="text" id="scriptMap" required value="Universal (ใช้ได้ทุกแมพ)" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <input type="text" id="scriptImage" placeholder="ลิงก์รูปภาพสคริปต์ (เว้นว่างไว้จะใช้รูป 404/สำรอง)" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <input type="text" id="scriptUrl" required placeholder="ลิงก์ Loadstring" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <input type="text" id="scriptVideo" placeholder="ลิงก์ YouTube วิดีโอตัวอย่าง (ถ้ามี)" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm">
-                <textarea id="scriptDesc" rows="3" required placeholder="คำอธิบาย..." class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm resize-none"></textarea>
-                <button type="submit" class="w-full py-3 rounded-xl font-medium bg-neonPurple text-white">บันทึกสคริปต์</button>
+            <button onclick="closeUploadModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-bold mb-6 text-neonPurple flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up"></i> อัปโหลดสคริปต์ใหม่</h3>
+            
+            <form id="uploadScriptForm" onsubmit="handleUploadScript(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">ชื่อสคริปต์</label>
+                    <input type="text" id="upName" required placeholder="ระบุชื่อสคริปต์..." class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm focus:outline-none focus:border-neonPurple">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">ผู้สร้าง</label>
+                    <input type="text" id="upCreator" required placeholder="ระบุชื่อผู้สร้าง..." class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm focus:outline-none focus:border-neonPurple">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">สคริปต์ (Loadstring / Code)</label>
+                    <textarea id="upUrl" rows="2" required placeholder="loadstring(game:HttpGet(...))" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm resize-none focus:outline-none focus:border-neonPurple"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">คำอธิบาย</label>
+                    <textarea id="upDesc" rows="3" required placeholder="อธิบายการใช้งานสคริปต์..." class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm resize-none focus:outline-none focus:border-neonPurple"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">วันเดือนปีตอนสร้าง</label>
+                    <input type="text" id="upDate" required placeholder="เช่น 02/10/2026" class="w-full px-4 py-3 rounded-xl glass-panel text-white text-sm focus:outline-none focus:border-neonPurple">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-medium bg-neonPurple hover:bg-neonPurpleHover text-white transition-all neon-glow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-upload"></i> ยืนยันการอัปโหลด
+                </button>
             </form>
         </div>
     </div>
@@ -350,19 +354,20 @@
         let player = null;
         let musicPlaying = false;
         const correctKey = "Sunlight hub 2026";
-        const fallbackImage = "https://cdn.discordapp.com/attachments/1550755223688056863/1555397500431769691/images.png?backend=b2&ex=6ac0604d&is=6abf0ecd&hm=96a0b6efbe0868e63fecf43b5d606db7c104a2a2ecf0a0850fbb05ce789f50d2&";
 
         const defaultScripts = [
-            { id: 9, name: 'บิน', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้ตัวเราบินได้โดยใช้อนาล็อกในการบิน', video: '' },
-            { id: 1, name: 'ล่องหน', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา', video: '' },
-            { id: 2, name: 'Wallhop', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้สามารถไต่กำแพงได้', video: '' },
-            { id: 3, name: 'ย้อนเวลา', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=38bd2fe1981a089b13d43ed94594ada1&_s=4ac8b5ba76ae8be0572a34a75155773a5292690ced1c1bf7964b342eba6ae91c"))()', desc: 'สามารถกดย้อนเวลาได้เมื่อรันสคริปมา ตัวละครของเราจะทำการเดินย้อนกลับมายังจุดที่เราต้องการให้หยุด', video: '' },
-            { id: 4, name: 'หยุดเวลา', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=ac254af6c932d54a23777b501a5b37b5&_s=d59b235f487e6dd2861d20c32d7825090e1bd9c685c802e92e87a7a262d4757c"))()', desc: 'สามารถหยุดเวลาได้ ทุกคนจะหยุดเวลา', video: '' },
-            { id: 5, name: 'Touch fling', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี', video: '' },
-            { id: 6, name: 'Clone player', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้', video: '' },
-            { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม', video: '' },
-            { id: 8, name: 'NPC', creator: 'areb_81h2', gameMap: 'Universal (ใช้ได้ทุกแมพ)', image: '', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', video: '' }
+            { id: 9, name: 'บิน', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้ตัวเราบินได้โดยใช้อนาล็อกในการบิน', date: '01/01/2026' },
+            { id: 1, name: 'ล่องหน', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=09fea8d5141d81e0c42cf8766948926a&_s=7f88f9a9706c8ec2c92deaed02fe5fee9b7763f3a54b722bb855901bc8565da0"))()', desc: 'ทำให้คนอื่นมองไม่เห็นตัวเรา', date: '01/01/2026' },
+            { id: 2, name: 'Wallhop', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=4b834183a3790ab218c9a80fbe203316&_s=70994ed8776bd9eedd822132b19fe99baebdef933b82f44aed36ba0721f88ef4"))()', desc: 'ทำให้สามารถไต่กำแพงได้', date: '01/01/2026' },
+            { id: 3, name: 'ย้อนเวลา', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=38bd2fe1981a089b13d43ed94594ada1&_s=4ac8b5ba76ae8be0572a34a75155773a5292690ced1c1bf7964b342eba6ae91c"))()', desc: 'สามารถกดย้อนเวลาได้เมื่อรันสคริปมา ตัวละครของเราจะทำการเดินย้อนกลับมายังจุดที่เราต้องการให้หยุด', date: '01/01/2026' },
+            { id: 4, name: 'หยุดเวลา', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://rizz-rxs.xyz/Onyx-Zero/api?key=ac254af6c932d54a23777b501a5b37b5&_s=d59b235f487e6dd2861d20c32d7825090e1bd9c685c802e92e87a7a262d4757c"))()', desc: 'สามารถหยุดเวลาได้ ทุกคนจะหยุดเวลา', date: '01/01/2026' },
+            { id: 5, name: 'Touch fling', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://pastefy.app/YDjomyL0/raw"))()', desc: 'เมื่อเดินไปใกล้ผู้เล่นคนอื่นจะทำให้กระเด็นหนี', date: '01/01/2026' },
+            { id: 6, name: 'Clone player', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://pastefy.app/1u13Zaug/raw"))()', desc: 'โคลนตัวละครของเรามา 1 คน สามารถกดวาร์ปสลับไปมาได้', date: '01/01/2026' },
+            { id: 7, name: 'Sunlight Dex 1.0', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://dpaste.com/8WPSRDSMT.txt"))()', desc: 'ค้นหาและตรวจสอบ Instance ภายในเกม', date: '01/01/2026' },
+            { id: 8, name: 'NPC', creator: 'areb_81h2', url: 'loadstring(game:HttpGet("https://pastefy.app/UmUjJxMA/raw"))()', desc: 'โคลน NPC ที่เหมือนตัวเรามา ควบคุมได้โดยตรง', date: '01/01/2026' }
         ];
+
+        const NPOINT_API_URL = "https://api.npoint.io/8572707039bb9f1e4948";
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('ytAudioPlayer', {
@@ -527,7 +532,6 @@
 
         function updateAuthUI() {
             const authContainer = document.getElementById('authContainer');
-            const adminBtn = document.getElementById('adminBtn');
             if (currentUser) {
                 authContainer.innerHTML = `
                     <div class="flex items-center gap-3">
@@ -535,14 +539,8 @@
                         <button onclick="logout()" class="text-xs bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 px-2.5 py-1.5 rounded-xl"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
                     </div>
                 `;
-                if (currentUser.role === 'admin') {
-                    adminBtn.classList.remove('hidden');
-                } else {
-                    adminBtn.classList.add('hidden');
-                }
             } else {
                 authContainer.innerHTML = `<button onclick="openAuthModal()" class="bg-neonPurple hover:bg-neonPurpleHover text-white px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 neon-glow-sm flex items-center gap-2"><i class="fa-solid fa-user-circle"></i> เข้าสู่ระบบ / สมัครสมาชิก</button>`;
-                adminBtn.classList.add('hidden');
             }
         }
 
@@ -553,42 +551,80 @@
             showToast('ออกจากระบบเรียบร้อย');
         }
 
-        function toggleAdminPanel() {
-            const modal = document.getElementById('adminModal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        function openUploadModal() {
+            if (!currentUser) {
+                showToast('กรุณาเข้าสู่ระบบก่อนอัปโหลดสคริปต์!');
+                openAuthModal();
+                return;
+            }
+            // ตั้งค่าวันปัจจุบันให้อัตโนมัติในช่องวันที่สร้าง
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            document.getElementById('upDate').value = `${day}/${month}/${year}`;
+            document.getElementById('upCreator').value = currentUser.username;
+
+            document.getElementById('uploadModal').style.display = 'flex';
         }
 
-        function fetchScripts() {
-            allScripts = defaultScripts;
-            let local = localStorage.getItem('sunlight_cloud_scripts');
-            if (local) { try { allScripts = JSON.parse(local); } catch(e) {} }
+        function closeUploadModal() {
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+
+        async function fetchScripts() {
+            try {
+                const response = await fetch(NPOINT_API_URL);
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allScripts = data;
+                } else {
+                    allScripts = defaultScripts;
+                    syncScriptsToCloud();
+                }
+            } catch (err) {
+                console.error("Error fetching scripts:", err);
+                allScripts = defaultScripts;
+            }
             renderScriptCards(allScripts);
         }
 
-        function saveScript(e) {
+        async function syncScriptsToCloud() {
+            try {
+                await fetch(NPOINT_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(allScripts)
+                });
+            } catch (err) {
+                console.error("Error syncing to cloud:", err);
+            }
+        }
+
+        function handleUploadScript(e) {
             e.preventDefault();
             const newScript = {
                 id: Date.now(),
-                name: document.getElementById('scriptName').value,
-                creator: document.getElementById('scriptCreator').value,
-                gameMap: document.getElementById('scriptMap').value,
-                image: document.getElementById('scriptImage').value.trim(),
-                url: document.getElementById('scriptUrl').value,
-                video: document.getElementById('scriptVideo').value.trim(),
-                desc: document.getElementById('scriptDesc').value
+                name: document.getElementById('upName').value.trim(),
+                creator: document.getElementById('upCreator').value.trim(),
+                url: document.getElementById('upUrl').value.trim(),
+                desc: document.getElementById('upDesc').value.trim(),
+                date: document.getElementById('upDate').value.trim()
             };
+
             allScripts.unshift(newScript);
-            localStorage.setItem('sunlight_cloud_scripts', JSON.stringify(allScripts));
-            document.getElementById('scriptForm').reset();
-            toggleAdminPanel();
+            syncScriptsToCloud();
+            document.getElementById('uploadScriptForm').reset();
+            closeUploadModal();
             renderScriptCards(allScripts);
-            showToast('บันทึกสคริปต์สำเร็จ!');
+            showToast('อัปโหลดสคริปต์สำเร็จ!');
         }
 
-        function deleteScript(id) {
+        function deleteScript(id, event) {
+            event.stopPropagation();
             if (confirm('ต้องการลบสคริปต์นี้ใช่หรือไม่?')) {
                 allScripts = allScripts.filter(s => s.id !== id);
-                localStorage.setItem('sunlight_cloud_scripts', JSON.stringify(allScripts));
+                syncScriptsToCloud();
                 renderScriptCards(allScripts);
                 showToast('ลบสคริปต์เรียบร้อยแล้ว');
             }
@@ -605,29 +641,23 @@
             grid.innerHTML = '';
             scripts.forEach(s => {
                 const card = document.createElement('div');
-                card.className = "glass-panel rounded-3xl flex flex-col justify-between transition-all duration-300 hover:border-neonPurple hover:neon-glow-sm relative group cursor-pointer overflow-hidden";
+                card.className = "glass-panel p-6 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:border-neonPurple hover:neon-glow-sm relative group cursor-pointer overflow-hidden";
                 card.onclick = () => openScriptDetail(s.id);
 
-                let adminHtml = currentUser?.role === 'admin' ? `<button onclick="event.stopPropagation(); deleteScript(${s.id})" class="absolute top-3 right-3 bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 px-3 py-1.5 rounded-xl text-xs z-10"><i class="fa-solid fa-trash-can"></i> ลบ</button>` : '';
-                
-                let imgSrc = (s.image && s.image !== "") ? s.image : fallbackImage;
+                let deleteBtnHtml = (currentUser && (currentUser.role === 'admin' || currentUser.username === s.creator)) ? 
+                    `<button onclick="deleteScript(${s.id}, event)" class="absolute top-4 right-4 bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 px-3 py-1.5 rounded-xl text-xs z-10"><i class="fa-solid fa-trash-can"></i> ลบ</button>` : '';
 
                 card.innerHTML = `
-                    ${adminHtml}
-                    <div class="w-full h-44 overflow-hidden bg-black/40 border-b border-purple-900/30">
-                        <img src="${imgSrc}" alt="${s.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='${fallbackImage}';">
+                    ${deleteBtnHtml}
+                    <div>
+                        <div class="flex items-start justify-between gap-4 mb-3 pr-12">
+                            <h3 class="font-bold text-lg text-white group-hover:text-neonPurple">${s.name}</h3>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-6 line-clamp-3">${s.desc}</p>
                     </div>
-                    <div class="p-6 flex flex-col justify-between flex-grow">
-                        <div>
-                            <div class="flex items-start justify-between gap-4 mb-2">
-                                <h3 class="font-bold text-lg text-white group-hover:text-neonPurple">${s.name}</h3>
-                                <span class="text-xs bg-purple-950/80 border border-purple-800 text-purple-300 px-2.5 py-1 rounded-full whitespace-nowrap">โดย ${s.creator}</span>
-                            </div>
-                            <p class="text-gray-300 text-sm mb-6 line-clamp-2">${s.desc}</p>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-purple-900/30">
-                            <span class="text-xs text-neonPurple font-medium flex items-center gap-1">ดูรายละเอียด <i class="fa-solid fa-arrow-right"></i></span>
-                        </div>
+                    <div class="pt-4 border-t border-purple-900/30 flex items-center justify-between text-xs text-gray-400">
+                        <span><i class="fa-solid fa-user-pen text-neonPurple mr-1"></i> ${s.creator}</span>
+                        <span><i class="fa-regular fa-calendar text-neonPurple mr-1"></i> ${s.date || '-'}</span>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -641,27 +671,8 @@
 
             document.getElementById('detailName').innerText = script.name;
             document.getElementById('detailCreator').innerText = script.creator;
-            document.getElementById('detailMap').innerText = script.gameMap || 'Universal';
+            document.getElementById('detailDate').innerText = `วันที่สร้าง: ${script.date || '-'}`;
             document.getElementById('detailDesc').innerText = script.desc;
-
-            let detailImgSrc = (script.image && script.image !== "") ? script.image : fallbackImage;
-            document.getElementById('detailImg').src = detailImgSrc;
-
-            const videoContainer = document.getElementById('videoContainer');
-            const videoEmbed = document.getElementById('videoEmbed');
-            if (script.video && script.video.includes('youtube.com')) {
-                let embedUrl = script.video.replace('watch?v=', 'embed/');
-                if (embedUrl.includes('&')) embedUrl = embedUrl.split('&')[0];
-                videoEmbed.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
-                videoContainer.classList.remove('hidden');
-            } else if (script.video && script.video.includes('youtu.be/')) {
-                let videoId = script.video.split('youtu.be/')[1].split('?')[0];
-                videoEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
-                videoContainer.classList.remove('hidden');
-            } else {
-                videoContainer.classList.add('hidden');
-                videoEmbed.innerHTML = '';
-            }
 
             renderOtherScripts(script.id);
 
@@ -696,14 +707,10 @@
                 const card = document.createElement('div');
                 card.className = "glass-panel p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:border-neonPurple cursor-pointer group gap-4";
                 card.onclick = () => openScriptDetail(s.id);
-                let smallImg = (s.image && s.image !== "") ? s.image : fallbackImage;
                 card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${smallImg}" class="w-12 h-12 rounded-xl object-cover border border-purple-900/30" onerror="this.onerror=null;this.src='${fallbackImage}';">
-                        <div>
-                            <h4 class="font-bold text-white group-hover:text-neonPurple text-sm mb-0.5 line-clamp-1">${s.name}</h4>
-                            <p class="text-gray-400 text-xs">โดย ${s.creator}</p>
-                        </div>
+                    <div>
+                        <h4 class="font-bold text-white group-hover:text-neonPurple text-sm mb-1">${s.name}</h4>
+                        <p class="text-gray-400 text-xs">โดย ${s.creator} • ${s.date || '-'}</p>
                     </div>
                     <span class="text-xs bg-neonPurple/20 border border-neonPurple text-neonPurple px-3 py-1.5 rounded-xl font-medium whitespace-nowrap">ดูสคริปต์</span>
                 `;
